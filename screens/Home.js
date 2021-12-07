@@ -1,4 +1,4 @@
-import { CurrentRenderContext } from '@react-navigation/core';
+import {CurrentRenderContext} from '@react-navigation/core';
 import React from 'react';
 import {
   View,
@@ -17,10 +17,8 @@ import {
 import {dummyData, COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 const Home = ({navigation}) => {
+  const newSeasonScrollX = React.useRef(new Animated.Value(0)).current;
 
-const newSeasonScrollX = React.useRef(new Animated.Value(0)).current;
-  
-    
   function renderHeader() {
     return (
       <View
@@ -56,75 +54,68 @@ const newSeasonScrollX = React.useRef(new Animated.Value(0)).current;
             height: 50,
           }}
           onPresss={() => console.log('Screen Mirror')}>
-              <Image
-              source={icons.airplay}
-              style={{
-                  width:25,
-                  height: 25,
-                  tintColor:COLORS.primary
-              }}
-              />
-          </TouchableOpacity>  
+          <Image
+            source={icons.airplay}
+            style={{
+              width: 25,
+              height: 25,
+              tintColor: COLORS.primary,
+            }}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
-   
-  function renderNewSeasonSection(){
-    return(
-        <Animated.FlatList
+
+  function renderNewSeasonSection() {
+    return (
+      <Animated.FlatList
         horizontal
         pagingEnabled
-        snapToAlignment='center'
+        snapToAlignment="center"
         snapToInterval={SIZES.width}
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
         decelerationRate={0}
         contentContainerStyle={{
-            marginTop:SIZES.radius
+          marginTop: SIZES.radius,
         }}
         data={dummyData.newSeason}
-        keyExtractor={item =>`${item.id}`}
-        onScroll={Animated.event([
-            {nativeEvent:{contenOffset:{x:newSeasonScrollX}}}
-        ],{useNativeDriver:false})}
-        renderItem={({item,index})=>{
-            return(
-                <TouchableWithoutFeedback
-                onPress={()=> navigation.navigate("MovieDetail",{selectedMovie:item
-                })}
-                >
-                    <View 
-                    style={{
-                        width:SIZES.width,
-                        alignItems:'center',
-                        justifyContent:'center',
-                    }}
-                    >
-                        {/* {Thumbnail} */}
-                        <ImageBackground
-                        source={item.thumbnail}
-                        resizeMode="cover"
-                        style={{
-                            width:SIZES.width*0.85,
-                            height:SIZES.width*0.85,
-                            justifyContent:'flex-end'
-                        }}
-                        imageStyle={{
-                            borderRadius:40
-                        }}
-                        >
-                            
-                        </ImageBackground>
-
-                    </View>
-                </TouchableWithoutFeedback>
-            )
-        }}
-        >
-
-        </Animated.FlatList>
-        )
-}
+        keyExtractor={item => `${item.id}`}
+        onScroll={Animated.event(
+          [{nativeEvent: {contenOffset: {x: newSeasonScrollX}}}],
+          {useNativeDriver: false},
+        )}
+        renderItem={({item, index}) => {
+          return (
+            <TouchableWithoutFeedback
+              onPress={() =>
+                navigation.navigate('MovieDetail', {selectedMovie: item})
+              }>
+              <View
+                style={{
+                  width: SIZES.width,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {/* {Thumbnail} */}
+                <ImageBackground
+                  source={item.thumbnail}
+                  resizeMode="cover"
+                  style={{
+                    width: SIZES.width * 0.85,
+                    height: SIZES.width * 0.85,
+                    justifyContent: 'flex-end',
+                  }}
+                  imageStyle={{
+                    borderRadius: 40,
+                  }}></ImageBackground>
+              </View>
+            </TouchableWithoutFeedback>
+          );
+        }}></Animated.FlatList>
+    );
+  }
 
   return (
     <SafeAreaView
@@ -134,12 +125,10 @@ const newSeasonScrollX = React.useRef(new Animated.Value(0)).current;
       }}>
       {renderHeader()}
       <ScrollView
-      contentContainerStyle={{
-          paddingBottom:100
-      }}
-      >
-          {renderNewSeasonSection()}
-
+        contentContainerStyle={{
+          paddingBottom: 100,
+        }}>
+        {renderNewSeasonSection()}
       </ScrollView>
     </SafeAreaView>
   );
